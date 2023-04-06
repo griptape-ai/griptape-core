@@ -15,13 +15,13 @@ Griptape has three core components:
 
 ## Getting Started
 
-Griptape separates the core framework from tools into two Python packages: `griptape-core` and `griptape-tools`. Explore Griptape tools in the [griptape-tools repo](https://github.com/griptape-ai/griptape-tools)
+Griptape separates the core framework from tools into two Python packages: `griptape_core` and `griptape_tools`. Explore Griptape tools in the [griptape-tools repo](https://github.com/griptape-ai/griptape-tools)
 
 First, install those packages:
 
 ```
-pip install griptape-core
-pip install griptape-tools
+pip install griptape_core
+pip install griptape_tools
 ```
 
 Next, initialize an executor and some tools:
