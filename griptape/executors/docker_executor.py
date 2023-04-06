@@ -10,7 +10,7 @@ import stringcase
 @define
 class DockerExecutor(BaseExecutor):
     DEFAULT_DOCKERFILE_DIR = "resources/docker_executor"
-    client: docker.DockerClient = field(default=docker.from_env(), kw_only=True)
+    client: docker.DockerClient = field(default=docker.from_env(assert_hostname=False), kw_only=True)
 
     def execute(self, tool_action: callable, value: bytes) -> bytes:
         tool = tool_action.__self__
