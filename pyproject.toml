@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "griptape-core"
+name = "griptape"
 version = "0.1.0"
 description = "LLM tools runtime framework."
 authors = []
