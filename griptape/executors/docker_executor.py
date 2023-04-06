@@ -1,5 +1,6 @@
 import logging
-from attrs import define, field
+from typing import Optional
+from attr import define, field, Factory
 import docker
 from docker.errors import NotFound
 import griptape
@@ -13,7 +14,18 @@ import os
 @define
 class DockerExecutor(BaseExecutor):
     DEFAULT_DOCKERFILE_DIR = "resources/docker_executor"
-    client: docker.DockerClient = field(default=docker.from_env(assert_hostname=False), kw_only=True)
+    client: docker.DockerClient = field(
+        default=Factory(lambda self: self.default_docker_client(), takes_self=True),
+        kw_only=True
+    )
+
+    def default_docker_client(self) -> Optional[docker.DockerClient]:
+        try:
+            return docker.from_env()
+        except Exception as e:
+            logging.error(e)
+
+            return None
 
     def execute(self, tool_action: callable, value: bytes) -> bytes:
         tool = tool_action.__self__
