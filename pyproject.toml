@@ -1,11 +1,15 @@
 [tool.poetry]
-name = "griptape"
+name = "griptape-core"
 version = "0.1.0"
 description = "LLM tools runtime framework."
 authors = []
 license = "Apache 2.0"
 readme = "README.md"
 repository = "https://github.com/griptape-ai/griptape-core"
+
+packages = [
+    {include = "griptape"}
+]
 
 [tool.poetry.dependencies]
 python = "^3.9"
