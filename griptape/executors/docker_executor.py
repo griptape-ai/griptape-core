@@ -5,6 +5,9 @@ from docker.errors import NotFound
 import griptape
 from griptape import BaseExecutor, BaseTool
 import stringcase
+import tempfile
+import shutil
+import os
 
 
 @define
@@ -57,16 +60,25 @@ class DockerExecutor(BaseExecutor):
             pass
 
     def build_image(self, tool: BaseTool) -> None:
-        image = self.client.images.build(
-            path=self.tool_dir(tool) if tool.dockerfile else griptape.abs_path(self.DEFAULT_DOCKERFILE_DIR),
-            tag=self.image_name(tool),
-            rm=True,
-            forcerm=True
-        )
+        with tempfile.TemporaryDirectory() as temp_dir:
+            shutil.rmtree(temp_dir)
+            shutil.copytree(self.tool_dir(tool), temp_dir)
 
-        response = [line for line in image]
+            if not tool.dockerfile:
+                dockerfile_path = griptape.abs_path(os.path.join(self.DEFAULT_DOCKERFILE_DIR, tool.DOCKERFILE_FILE))
 
-        logging.info(f"Built image: {response[0].short_id}")
+                shutil.copy(dockerfile_path, temp_dir)
+
+            image = self.client.images.build(
+                path=temp_dir,
+                tag=self.image_name(tool),
+                rm=True,
+                forcerm=True
+            )
+
+            response = [line for line in image]
+
+            logging.info(f"Built image: {response[0].short_id}")
 
     def image_name(self, tool: BaseTool) -> str:
         return f"{stringcase.snakecase(self.tool_name(tool))}_image"
