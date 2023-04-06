@@ -29,7 +29,7 @@ Next, initialize an executor and some tools:
 ```python
 from griptape.adapters import LangchainToolAdapter, ChatgptPluginAdapter
 from griptape.executors import LocalExecutor
-from griptape.tools import (
+from griptape_tools import (
     Calculator, GoogleSearch
 )
 

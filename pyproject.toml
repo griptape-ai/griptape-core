@@ -2,14 +2,10 @@
 name = "griptape-core"
 version = "0.1.1"
 description = "Python framework for LLM middleware tools. Build once, run anywhere."
-authors = []
+authors = ["Griptape <hello@griptape.ai>"]
 license = "Apache 2.0"
 readme = "README.md"
 repository = "https://github.com/griptape-ai/griptape-core"
-
-packages = [
-    {include = "griptape"}
-]
 
 [tool.poetry.dependencies]
 python = "^3.9"
