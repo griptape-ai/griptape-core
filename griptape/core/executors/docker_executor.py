@@ -78,7 +78,7 @@ class DockerExecutor(BaseExecutor):
             shutil.copytree(self.tool_dir(tool), temp_dir)
 
             if not tool.dockerfile:
-                dockerfile_path = griptape.abs_path(os.path.join(self.DEFAULT_DOCKERFILE_DIR, tool.DOCKERFILE_FILE))
+                dockerfile_path = griptape.core.abs_path(os.path.join(self.DEFAULT_DOCKERFILE_DIR, tool.DOCKERFILE_FILE))
 
                 shutil.copy(dockerfile_path, temp_dir)
 
