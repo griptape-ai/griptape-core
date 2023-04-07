@@ -3,8 +3,8 @@ import json
 import yaml
 from attr import define, field
 from fastapi import FastAPI
-from griptape import BaseAdapter, BaseTool
-from griptape.utils import J2
+from griptape.core import BaseAdapter, BaseTool
+from griptape.core.utils import J2
 import functools
 
 

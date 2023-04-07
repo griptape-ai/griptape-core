@@ -1,7 +1,7 @@
 import json
 import langchain.tools
 from attr import define
-from griptape import BaseAdapter
+from griptape.core import BaseAdapter
 
 
 @define

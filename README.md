@@ -27,9 +27,9 @@ pip install griptape-tools
 Next, initialize an executor and some tools:
 
 ```python
-from griptape.adapters import LangchainToolAdapter, ChatgptPluginAdapter
-from griptape.executors import LocalExecutor
-from griptape_tools import (
+from griptape.core.adapters import LangchainToolAdapter, ChatgptPluginAdapter
+from griptape.core.executors import LocalExecutor
+from griptape.tools import (
     Calculator, GoogleSearch
 )
 

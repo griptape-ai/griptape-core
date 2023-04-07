@@ -2,7 +2,7 @@ import logging
 import os
 import subprocess
 from attr import define, field
-from griptape import BaseExecutor, BaseTool
+from griptape.core import BaseExecutor, BaseTool
 
 
 @define

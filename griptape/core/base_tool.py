@@ -92,7 +92,7 @@ class BaseTool(ABC):
         return methods
 
     def validate(self) -> bool:
-        from griptape.utils import ManifestValidator
+        from griptape.core.utils import ManifestValidator
 
         if not os.path.exists(self.manifest_path):
             raise Exception(f"{self.MANIFEST_FILE} not found")

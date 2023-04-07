@@ -4,7 +4,8 @@ from attr import define, field, Factory
 import docker
 from docker.errors import NotFound
 import griptape
-from griptape import BaseExecutor, BaseTool
+from griptape.core import BaseTool
+from griptape.core import BaseExecutor
 import stringcase
 import tempfile
 import shutil
