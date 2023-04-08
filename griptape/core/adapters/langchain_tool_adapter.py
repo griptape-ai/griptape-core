@@ -10,13 +10,7 @@ class LangchainToolAdapter(BaseAdapter):
         tool = tool_action.__self__
 
         # Double up curly brackets for correct f-string parsing in LangChain prompt templates.
-        schema = json.dumps(
-            tool_action.schema.json_schema("ToolSchema")
-        ).replace("{", "{{").replace("}", "}}")
-
-        description_list = [
-            f"Tool input schema: {schema}"
-        ]
+        description = tool.get_action_description(tool_action).replace("{", "{{").replace("}", "}}")
 
         def _run(_self, value: str) -> str:
             return self.executor.execute(tool_action, value.encode()).decode()
@@ -28,8 +22,8 @@ class LangchainToolAdapter(BaseAdapter):
             f"Griptape{tool.__class__.__name__}Tool",
             (langchain.tools.BaseTool,),
             {
-                "name": tool_action.name,
-                "description": str.join("\n", description_list),
+                "name": tool_action.config["name"],
+                "description": description,
                 "_run": _run,
                 "_arun": _arun
             }

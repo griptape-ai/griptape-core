@@ -57,7 +57,7 @@ class ChatgptPluginAdapter(BaseAdapter):
 
         for action in tool.actions():
             app.add_api_route(
-                f"{self.path_prefix}{action.name}",
+                f"{self.path_prefix}{action.config['name']}",
                 functools.partial(self.__execute_action, action),
                 methods=["GET"],
                 description=tool.get_action_description(action)

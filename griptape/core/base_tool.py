@@ -5,7 +5,6 @@ from abc import ABC
 from typing import Optional
 import yaml
 from attr import define, fields, Attribute
-from schema import Literal
 
 
 @define
@@ -13,7 +12,6 @@ class BaseTool(ABC):
     MANIFEST_FILE = "manifest.yml"
     DOCKERFILE_FILE = "Dockerfile"
     REQUIREMENTS_FILE = "requirements.txt"
-
 
     @property
     def env_fields(self) -> list[Attribute]:
@@ -70,17 +68,18 @@ class BaseTool(ABC):
         if action is None or not getattr(action, "is_action", False):
             raise Exception("This method is not a tool action.")
         else:
-            return [
-                f"{key.description}"
-                for key in action.schema.schema.keys()
-                if isinstance(key, Literal) and str(key) == "action_input" and key.description
-            ][0]
+            schema = action.config['input_schema'].json_schema('ToolActionSchema')
 
-    def get_action_schema(self, action: callable) -> str:
+            return str.join("\n", [
+                action.config["description"],
+                f"Input schema: {json.dumps(schema)}"
+            ])
+
+    def get_action_input_schema(self, action: callable) -> str:
         if action is None or not getattr(action, "is_action", False):
             raise Exception("This method is not a tool action.")
         else:
-            return json.dumps(action.schema.json_schema("ToolInputSchema"))
+            return json.dumps(action.config["input_schema"].json_schema("ToolInputSchema"))
 
     def actions(self) -> list[callable]:
         methods = []

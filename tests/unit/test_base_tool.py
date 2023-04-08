@@ -3,6 +3,7 @@ import json
 import os
 import pytest
 import yaml
+from schema import SchemaMissingKeyError
 from tests.mocks.mock_tool.tool import MockTool
 
 
@@ -50,8 +51,9 @@ class TestBaseTool:
     def test_get_action_description(self, tool):
         assert isinstance(tool.get_action_description(tool.test), str)
 
-    def test_get_action_schema(self, tool):
-        assert tool.get_action_schema(tool.test) == json.dumps(tool.test.schema.json_schema("ToolInputSchema"))
+    def test_get_action_input_schema(self, tool):
+        assert tool.get_action_input_schema(tool.test) == \
+               json.dumps(tool.test.config["input_schema"].json_schema("ToolInputSchema"))
 
     def test_get_actions(self, tool):
         assert len(tool.actions()) == 1
@@ -59,3 +61,12 @@ class TestBaseTool:
 
     def test_validate(self, tool):
         assert tool.validate()
+
+    def test_invalid_config(self):
+        try:
+            from tests.mocks.invalid_mock_tool.tool import InvalidMockTool
+        except SchemaMissingKeyError as e:
+            assert True
+
+    def test_custom_config(self, tool):
+        assert tool.test.config["foo"] == "bar"

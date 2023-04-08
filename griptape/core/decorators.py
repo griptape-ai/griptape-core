@@ -1,16 +1,25 @@
 import functools
-from schema import Schema
+from schema import Schema, And, Use
 
 
-def action(name: str, schema: Schema):
+def action(config: dict):
+    __config_schema().validate(config)
+
     def decorator(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
             return func(*args, **kwargs)
 
         wrapper.is_action = True
-        wrapper.name = name
-        wrapper.schema = schema
+        wrapper.config = config
 
         return wrapper
     return decorator
+
+
+def __config_schema() -> Schema:
+    return Schema({
+        "name": str,
+        "description": str,
+        "input_schema": Schema
+    }, ignore_extra_keys=True)

@@ -4,10 +4,11 @@ from griptape.core import BaseTool, action
 
 
 @define
-class MockTool(BaseTool):
+class InvalidMockTool(BaseTool):
     configs = {
         "test": {
-            "name": "test",
+            # no name should make this tool invalid
+            #"name": "test",
             "description": "test description",
             "input_schema": Schema({
                 Literal(
