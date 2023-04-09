@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "griptape-core"
-version = "0.2.1"
+version = "0.3.0"
 description = "Python framework for LLM middleware tools. Build once, run anywhere."
 authors = ["Griptape <hello@griptape.ai>"]
 license = "Apache 2.0"
@@ -21,7 +21,7 @@ schema = ">=0.7"
 pyyaml = ">=6"
 openai = ">=0.27"
 langchain = ">=0.0.120"
-fastapi = ">=0.90"
+fastapi = ">=0.80"
 uvicorn = ">= 0.20"
 
 [tool.poetry.group.test.dependencies]
