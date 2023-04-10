@@ -13,6 +13,3 @@ class BaseExecutor(ABC):
         class_file = inspect.getfile(tool.__class__)
 
         return os.path.dirname(os.path.abspath(class_file))
-
-    def tool_name(self, tool: BaseTool) -> str:
-        return tool.__class__.__name__

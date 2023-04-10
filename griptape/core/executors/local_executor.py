@@ -12,7 +12,7 @@ class LocalExecutor(BaseExecutor):
     def execute(self, tool_action: callable, value: bytes) -> bytes:
         tool = tool_action.__self__
 
-        logging.warning(f"You are executing the {self.tool_name(tool)} tool in the local environment. Make sure to "
+        logging.warning(f"You are executing the {tool.name} tool in the local environment. Make sure to "
                         f"switch to a more secure ToolExecutor in production.")
 
         env = os.environ.copy()
@@ -48,7 +48,7 @@ class LocalExecutor(BaseExecutor):
 
     def run_subprocess(self, env: dict[str, str], tool_action: callable, value: bytes) -> subprocess.CompletedProcess:
         tool = tool_action.__self__
-        tool_name = self.tool_name(tool)
+        tool_name = tool.name
         command = [
             "python",
             "-c",

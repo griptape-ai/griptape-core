@@ -39,7 +39,7 @@ class DockerExecutor(BaseExecutor):
     def run_container(self, tool_action: callable, value: bytes) -> str:
         tool = tool_action.__self__
         workdir = "/tool"
-        tool_name = self.tool_name(tool)
+        tool_name = tool.name
         command = [
             "python",
             "-c",
@@ -94,7 +94,7 @@ class DockerExecutor(BaseExecutor):
             logging.info(f"Built image: {response[0].short_id}")
 
     def image_name(self, tool: BaseTool) -> str:
-        return f"{stringcase.snakecase(self.tool_name(tool))}_image"
+        return f"{stringcase.snakecase(tool.name)}_image"
 
     def container_name(self, tool: BaseTool) -> str:
-        return f"{stringcase.snakecase(self.tool_name(tool))}_container"
+        return f"{stringcase.snakecase(tool.name)}_container"

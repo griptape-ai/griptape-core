@@ -14,6 +14,10 @@ class BaseTool(ABC):
     REQUIREMENTS_FILE = "requirements.txt"
 
     @property
+    def name(self) -> str:
+        return self.__class__.__name__
+
+    @property
     def env_fields(self) -> list[Attribute]:
         return [f for f in fields(self.__class__) if f.metadata.get("env")]
 
