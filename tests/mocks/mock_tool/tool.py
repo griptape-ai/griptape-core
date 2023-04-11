@@ -11,7 +11,7 @@ class MockTool(BaseTool):
             "description": "test description",
             "input_schema": Schema({
                 Literal(
-                    "action_input",
+                    "input",
                     description="Test input"
                 ): str
             }),
