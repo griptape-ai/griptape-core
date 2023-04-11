@@ -56,7 +56,7 @@ class TestBaseTool:
 
     def test_get_action_value_schema(self, tool):
         assert tool.get_action_value_schema(tool.test) == \
-               json.dumps(tool.test.config["value_schema"].json_schema("ToolInputSchema"))
+               tool.test.config["value_schema"].json_schema("ToolInputSchema")
 
     def test_get_actions(self, tool):
         assert len(tool.actions()) == 1

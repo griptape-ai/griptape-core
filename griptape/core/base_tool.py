@@ -96,11 +96,11 @@ class BaseTool(ABC):
                 f"Input schema: {json.dumps(schema)}"
             ])
 
-    def get_action_value_schema(self, action: callable) -> str:
+    def get_action_value_schema(self, action: callable) -> dict:
         if action is None or not getattr(action, "is_action", False):
             raise Exception("This method is not a tool action.")
         else:
-            return json.dumps(action.config["value_schema"].json_schema("ToolInputSchema"))
+            return action.config["value_schema"].json_schema("ToolInputSchema")
 
     def validate(self) -> bool:
         from griptape.core.utils import ManifestValidator
