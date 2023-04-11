@@ -58,6 +58,15 @@ class BaseTool(ABC):
     def abs_dir_path(self):
         return os.path.dirname(self.abs_file_path)
 
+    def actions(self) -> list[callable]:
+        methods = []
+
+        for name, method in inspect.getmembers(self, predicate=inspect.ismethod):
+            if getattr(method, "is_action", False):
+                methods.append(method)
+
+        return methods
+
     def env_value(self, name: str) -> Optional[str]:
         env_var_value = os.environ.get(name, None)
         if env_var_value:
@@ -72,27 +81,18 @@ class BaseTool(ABC):
         if action is None or not getattr(action, "is_action", False):
             raise Exception("This method is not a tool action.")
         else:
-            schema = action.config['input_schema'].json_schema('ToolActionSchema')
+            schema = action.config["value_schema"].json_schema("ToolActionSchema")
 
             return str.join("\n", [
                 action.config["description"],
                 f"Input schema: {json.dumps(schema)}"
             ])
 
-    def get_action_input_schema(self, action: callable) -> str:
+    def get_action_value_schema(self, action: callable) -> str:
         if action is None or not getattr(action, "is_action", False):
             raise Exception("This method is not a tool action.")
         else:
-            return json.dumps(action.config["input_schema"].json_schema("ToolInputSchema"))
-
-    def actions(self) -> list[callable]:
-        methods = []
-
-        for name, method in inspect.getmembers(self, predicate=inspect.ismethod):
-            if getattr(method, "is_action", False):
-                methods.append(method)
-
-        return methods
+            return json.dumps(action.config["value_schema"].json_schema("ToolInputSchema"))
 
     def validate(self) -> bool:
         from griptape.core.utils import ManifestValidator

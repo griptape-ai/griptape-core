@@ -65,7 +65,7 @@ class ChatgptPluginAdapter(BaseAdapter):
 
         return app
 
-    def __execute_action(self, action: callable, action_input: str) -> dict:
+    def __execute_action(self, action: callable, value: str) -> dict:
         return ast.literal_eval(
-            self.executor.execute(action, action_input.encode()).decode()
+            self.executor.execute(action, value.encode()).decode()
         )

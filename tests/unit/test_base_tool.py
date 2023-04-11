@@ -51,9 +51,9 @@ class TestBaseTool:
     def test_get_action_description(self, tool):
         assert isinstance(tool.get_action_description(tool.test), str)
 
-    def test_get_action_input_schema(self, tool):
-        assert tool.get_action_input_schema(tool.test) == \
-               json.dumps(tool.test.config["input_schema"].json_schema("ToolInputSchema"))
+    def test_get_action_value_schema(self, tool):
+        assert tool.get_action_value_schema(tool.test) == \
+               json.dumps(tool.test.config["value_schema"].json_schema("ToolInputSchema"))
 
     def test_get_actions(self, tool):
         assert len(tool.actions()) == 1

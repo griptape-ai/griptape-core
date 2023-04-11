@@ -9,9 +9,9 @@ class MockTool(BaseTool):
         "test": {
             "name": "test",
             "description": "test description",
-            "input_schema": Schema({
+            "value_schema": Schema({
                 Literal(
-                    "input",
+                    "value",
                     description="Test input"
                 ): str
             }),
@@ -22,5 +22,5 @@ class MockTool(BaseTool):
     test_field: str = field(default="test", kw_only=True, metadata={"env": "TEST_FIELD"})
 
     @action(config=configs["test"])
-    def test(self, action_input: bytes) -> str:
-        return f"ack {action_input.decode()}"
+    def test(self, value: bytes) -> str:
+        return f"ack {value.decode()}"
