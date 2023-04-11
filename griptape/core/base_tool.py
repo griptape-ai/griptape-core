@@ -77,6 +77,14 @@ class BaseTool(ABC):
                 None
             )
 
+    def get_action_name(self, action: callable) -> str:
+        if action is None or not getattr(action, "is_action", False):
+            raise Exception("This method is not a tool action.")
+        else:
+            schema = action.config["value_schema"].json_schema("ToolActionSchema")
+
+            return action.config["name"]
+
     def get_action_description(self, action: callable) -> str:
         if action is None or not getattr(action, "is_action", False):
             raise Exception("This method is not a tool action.")

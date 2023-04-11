@@ -48,6 +48,9 @@ class TestBaseTool:
         assert tool.env_value("TEST_FIELD") == "hello"
         assert tool.env_value("NO_TEST_FIELD") is None
 
+    def test_get_action_name(self, tool):
+        assert isinstance(tool.get_action_name(tool.test), str)
+
     def test_get_action_description(self, tool):
         assert isinstance(tool.get_action_description(tool.test), str)
 
