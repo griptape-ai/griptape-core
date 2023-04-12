@@ -1,9 +1,9 @@
 import inspect
-import json
 import os
 import pytest
 import yaml
 from schema import SchemaMissingKeyError
+
 from tests.mocks.mock_tool.tool import MockTool
 
 
@@ -48,17 +48,18 @@ class TestBaseTool:
         assert tool.env_value("TEST_FIELD") == "hello"
         assert tool.env_value("NO_TEST_FIELD") is None
 
-    def test_get_action_name(self, tool):
-        assert isinstance(tool.get_action_name(tool.test), str)
+    def test_action_name(self, tool):
+        assert isinstance(tool.action_name(tool.test), str)
 
-    def test_get_action_description(self, tool):
-        assert isinstance(tool.get_action_description(tool.test), str)
+    def test_action_description(self, tool):
+        assert "bar" in tool.action_description(tool.test)
+        assert "baz" not in tool.action_description(tool.test)
 
-    def test_get_action_value_schema(self, tool):
-        assert tool.get_action_value_schema(tool.test) == \
+    def test_action_schema(self, tool):
+        assert tool.action_schema(tool.test) == \
                tool.test.config["value_schema"].json_schema("ToolInputSchema")
 
-    def test_get_actions(self, tool):
+    def test_actions(self, tool):
         assert len(tool.actions()) == 1
         assert tool.actions()[0] == tool.test
 

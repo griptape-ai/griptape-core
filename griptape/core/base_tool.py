@@ -5,6 +5,7 @@ from abc import ABC
 from typing import Optional
 import yaml
 from attr import define, fields, Attribute
+from jinja2 import Template
 
 
 @define
@@ -58,6 +59,10 @@ class BaseTool(ABC):
     def abs_dir_path(self):
         return os.path.dirname(self.abs_file_path)
 
+    @property
+    def schema_template_args(self) -> dict:
+        return {}
+
     def actions(self) -> list[callable]:
         methods = []
 
@@ -77,26 +82,24 @@ class BaseTool(ABC):
                 None
             )
 
-    def get_action_name(self, action: callable) -> str:
+    def action_name(self, action: callable) -> str:
         if action is None or not getattr(action, "is_action", False):
             raise Exception("This method is not a tool action.")
         else:
-            schema = action.config["value_schema"].json_schema("ToolActionSchema")
-
             return action.config["name"]
 
-    def get_action_description(self, action: callable) -> str:
+    def action_description(self, action: callable) -> str:
         if action is None or not getattr(action, "is_action", False):
             raise Exception("This method is not a tool action.")
         else:
             schema = action.config["value_schema"].json_schema("ToolActionSchema")
 
             return str.join("\n", [
-                action.config["description"],
+                Template(action.config["description"]).render(self.schema_template_args),
                 f"Input schema: {json.dumps(schema)}"
             ])
 
-    def get_action_value_schema(self, action: callable) -> dict:
+    def action_schema(self, action: callable) -> dict:
         if action is None or not getattr(action, "is_action", False):
             raise Exception("This method is not a tool action.")
         else:

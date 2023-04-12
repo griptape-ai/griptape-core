@@ -1,5 +1,5 @@
 import functools
-from schema import Schema, And, Use
+from schema import Schema
 
 
 def action(config: dict):
@@ -7,11 +7,11 @@ def action(config: dict):
 
     def decorator(func):
         @functools.wraps(func)
-        def wrapper(*args, **kwargs):
-            return func(*args, **kwargs)
+        def wrapper(self, *args, **kwargs):
+            return func(self, *args, **kwargs)
 
-        wrapper.is_action = True
         wrapper.config = config
+        wrapper.is_action = True
 
         return wrapper
     return decorator

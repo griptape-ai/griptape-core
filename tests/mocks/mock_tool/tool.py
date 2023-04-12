@@ -8,7 +8,7 @@ class MockTool(BaseTool):
     configs = {
         "test": {
             "name": "test",
-            "description": "test description",
+            "description": "test description: {{ foo }}",
             "value_schema": Schema({
                 Literal(
                     "value",
@@ -24,3 +24,9 @@ class MockTool(BaseTool):
     @action(config=configs["test"])
     def test(self, value: bytes) -> str:
         return f"ack {value.decode()}"
+
+    @property
+    def schema_template_args(self) -> dict:
+        return {
+            "foo": "bar"
+        }

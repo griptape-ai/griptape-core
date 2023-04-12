@@ -10,7 +10,7 @@ class LangchainToolAdapter(BaseAdapter):
         tool = tool_action.__self__
 
         # Double up curly brackets for correct f-string parsing in LangChain prompt templates.
-        description = tool.get_action_description(tool_action).replace("{", "{{").replace("}", "}}")
+        description = tool.action_description(tool_action).replace("{", "{{").replace("}", "}}")
 
         def _run(_self, value: str) -> str:
             return self.executor.execute(tool_action, value.encode()).decode()
