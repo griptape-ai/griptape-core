@@ -1,5 +1,6 @@
 import inspect
 import json
+import logging
 import os
 from abc import ABC
 from typing import Optional
@@ -13,6 +14,9 @@ class BaseTool(ABC):
     MANIFEST_FILE = "manifest.yml"
     DOCKERFILE_FILE = "Dockerfile"
     REQUIREMENTS_FILE = "requirements.txt"
+
+    # Disable logging, unless it's an error, so that executors don't capture it as subprocess output.
+    logging.basicConfig(level=logging.ERROR)
 
     @property
     def name(self) -> str:
