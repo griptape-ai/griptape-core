@@ -1,11 +1,12 @@
-import ast
+import functools
 import json
+from typing import Union
 import yaml
 from attr import define, field
 from fastapi import FastAPI
+from starlette.responses import PlainTextResponse
 from griptape.core import BaseAdapter, BaseTool
 from griptape.core.utils import J2
-import functools
 
 
 @define
@@ -52,6 +53,7 @@ class ChatgptPluginAdapter(BaseAdapter):
             f"{self.path_prefix}{self.OPENAPI_SPEC_FILE}",
             functools.partial(self.generate_api_spec, app),
             methods=["GET"],
+            response_class=PlainTextResponse,
             description="OpenAPI plugin spec"
         )
 
@@ -65,7 +67,10 @@ class ChatgptPluginAdapter(BaseAdapter):
 
         return app
 
-    def __execute_action(self, action: callable, value: str) -> dict:
-        return ast.literal_eval(
-            self.executor.execute(action, value.encode()).decode()
-        )
+    def __execute_action(self, action: callable, value: str) -> Union[str, dict]:
+        result = self.executor.execute(action, value.encode()).decode()
+
+        try:
+            return json.loads(result)
+        except:
+            return result
