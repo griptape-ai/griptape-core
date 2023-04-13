@@ -53,8 +53,8 @@ Convert tool actions into LangChain tools:
 ```python
 agent = initialize_agent(
     [
-        LangchainToolAdapter(executor=tool_executor).generate(google_search.search),
-        LangchainToolAdapter(executor=tool_executor).generate(calculator.calculate)
+        LangchainToolAdapter(executor=tool_executor).generate_tool(google_search.search),
+        LangchainToolAdapter(executor=tool_executor).generate_tool(calculator.calculate)
     ],
     OpenAI(temperature=0.5, model_name="text-davinci-003"),
     agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,

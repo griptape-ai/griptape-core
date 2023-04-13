@@ -17,7 +17,7 @@ class TestLangchainToolAdapter:
         return LocalExecutor()
 
     def test_generate(self, tool, executor):
-        assert isinstance(LangchainToolAdapter(executor=executor).generate(tool.test), langchain.tools.BaseTool)
+        assert isinstance(LangchainToolAdapter(executor=executor).generate_tool(tool.test), langchain.tools.BaseTool)
 
     def test_run(self, tool, executor):
-        assert LangchainToolAdapter(executor=executor).generate(tool.test)._run("test") == "ack test"
+        assert LangchainToolAdapter(executor=executor).generate_tool(tool.test)._run("test") == "ack test"

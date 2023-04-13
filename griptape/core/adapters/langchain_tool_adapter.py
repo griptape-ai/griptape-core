@@ -1,4 +1,3 @@
-import json
 import langchain.tools
 from attr import define
 from griptape.core import BaseAdapter
@@ -6,7 +5,7 @@ from griptape.core import BaseAdapter
 
 @define
 class LangchainToolAdapter(BaseAdapter):
-    def generate(self, tool_action: callable) -> langchain.tools.BaseTool:
+    def generate_tool(self, tool_action: callable) -> langchain.tools.BaseTool:
         tool = tool_action.__self__
 
         # Double up curly brackets for correct f-string parsing in LangChain prompt templates.
