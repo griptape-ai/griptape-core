@@ -10,7 +10,7 @@ class InvalidMockTool(BaseTool):
             # no name should make this tool invalid
             #"name": "test",
             "description": "test description",
-            "value_schema": Schema({
+            "schema": Schema({
                 Literal(
                     "input",
                     description="Test input"

@@ -9,7 +9,7 @@ class MockTool(BaseTool):
         "test": {
             "name": "test",
             "description": "test description: {{ foo }}",
-            "value_schema": Schema({
+            "schema": Schema({
                 Literal(
                     "value",
                     description="Test input"

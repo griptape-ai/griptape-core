@@ -21,5 +21,5 @@ def __config_schema() -> Schema:
     return Schema({
         "name": str,
         "description": str,
-        "value_schema": Schema
+        "schema": Schema
     }, ignore_extra_keys=True)
