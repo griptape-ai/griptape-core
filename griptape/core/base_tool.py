@@ -96,7 +96,7 @@ class BaseTool(ABC):
         if action is None or not getattr(action, "is_action", False):
             raise Exception("This method is not a tool action.")
         else:
-            schema = action.config["value_schema"].json_schema("ToolActionSchema")
+            schema = action.config["value_schema"].json_schema("ToolActionSchema")["properties"]["value"]
 
             return str.join("\n", [
                 Template(action.config["description"]).render(self.schema_template_args),
