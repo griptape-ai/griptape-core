@@ -4,13 +4,16 @@ from typing import Union
 import yaml
 from attr import define, field
 from fastapi import FastAPI
-from starlette.responses import PlainTextResponse
+from starlette.responses import Response
 from griptape.core import BaseAdapter, BaseTool
 from griptape.core.utils import J2
 
 
 @define
 class ChatgptPluginAdapter(BaseAdapter):
+    class YAMLResponse(Response):
+        media_type = "text/yaml"
+
     OPENAI_MANIFEST_FILE = "ai-plugin.json"
     OPENAPI_SPEC_FILE = "openapi.yaml"
 
@@ -53,7 +56,7 @@ class ChatgptPluginAdapter(BaseAdapter):
             f"{self.path_prefix}{self.OPENAPI_SPEC_FILE}",
             functools.partial(self.generate_api_spec, app),
             methods=["GET"],
-            response_class=PlainTextResponse,
+            response_class=self.YAMLResponse,
             description="OpenAPI plugin spec"
         )
 
