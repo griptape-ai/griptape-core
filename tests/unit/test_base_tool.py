@@ -11,11 +11,12 @@ class TestBaseTool:
     @pytest.fixture
     def tool(self):
         return MockTool(
-            test_field="hello"
+            test_field="hello",
+            test_int=5
         )
 
     def test_env_fields(self, tool):
-        assert len(tool.env_fields) == 1
+        assert len(tool.env_fields) == 2
 
     def test_env(self, tool):
         assert tool.env["TEST_FIELD"] == "hello"
@@ -46,6 +47,7 @@ class TestBaseTool:
 
     def test_env_value(self, tool):
         assert tool.env_value("TEST_FIELD") == "hello"
+        assert tool.env_value("TEST_INT") == 5
         assert tool.env_value("NO_TEST_FIELD") is None
 
     def test_action_name(self, tool):

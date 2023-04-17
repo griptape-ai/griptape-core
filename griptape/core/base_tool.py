@@ -76,13 +76,14 @@ class BaseTool(ABC):
 
         return methods
 
-    def env_value(self, name: str) -> Optional[str]:
+    def env_value(self, name: str) -> Optional[any]:
         env_var_value = os.environ.get(name, None)
+
         if env_var_value:
             return env_var_value
         else:
             return next(
-                (str(getattr(self, f.name)) for f in self.env_fields if f.metadata.get("env") == name),
+                (getattr(self, f.name) for f in self.env_fields if f.metadata.get("env") == name),
                 None
             )
 
