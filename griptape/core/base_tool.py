@@ -1,11 +1,10 @@
 import inspect
-import json
 import logging
 import os
 from abc import ABC
 from typing import Optional
 import yaml
-from attr import define, fields, Attribute
+from attr import define, fields, Attribute, field, Factory
 from jinja2 import Template
 
 
@@ -15,12 +14,11 @@ class BaseTool(ABC):
     DOCKERFILE_FILE = "Dockerfile"
     REQUIREMENTS_FILE = "requirements.txt"
 
+    name: str = field(default=Factory(lambda self: self.__class__.__name__, takes_self=True), kw_only=True)
+    metadata: Optional[str] = field(default=None, kw_only=True)
+
     # Disable logging, unless it's an error, so that executors don't capture it as subprocess output.
     logging.basicConfig(level=logging.ERROR)
-
-    @property
-    def name(self) -> str:
-        return self.__class__.__name__
 
     @property
     def env_fields(self) -> list[Attribute]:
@@ -97,10 +95,17 @@ class BaseTool(ABC):
         if action is None or not getattr(action, "is_action", False):
             raise Exception("This method is not a tool action.")
         else:
-            return str.join("\n", [
+            description_lines = [
                 Template(action.config["description"]).render(self.schema_template_args),
-                f"Input schema: {self.action_schema(action)}"
-            ])
+                f"Input Schema: {self.action_schema(action)}"
+            ]
+
+            if self.metadata:
+                description_lines.append(
+                    f"Additional metadata: {self.metadata}"
+                )
+
+            return str.join("\n", description_lines)
 
     def action_schema(self, action: callable) -> dict:
         if action is None or not getattr(action, "is_action", False):

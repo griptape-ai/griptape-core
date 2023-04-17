@@ -11,6 +11,7 @@ class TestBaseTool:
     @pytest.fixture
     def tool(self):
         return MockTool(
+            metadata="metadata",
             test_field="hello",
             test_int=5
         )
@@ -51,11 +52,18 @@ class TestBaseTool:
         assert tool.env_value("NO_TEST_FIELD") is None
 
     def test_action_name(self, tool):
-        assert isinstance(tool.action_name(tool.test), str)
+        assert tool.action_name(tool.test) == "test"
+
+    def test_name(self):
+        assert MockTool().name == "MockTool"
+        assert MockTool(name="FooBar").name == "FooBar"
 
     def test_action_description(self, tool):
-        assert "bar" in tool.action_description(tool.test)
-        assert "baz" not in tool.action_description(tool.test)
+        description = tool.action_description(tool.test)
+
+        assert "bar" in description
+        assert "baz" not in description
+        assert "metadata" in description
 
     def test_action_schema(self, tool):
         assert tool.action_schema(tool.test) == \
