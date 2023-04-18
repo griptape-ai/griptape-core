@@ -51,6 +51,11 @@ class TestBaseTool:
         assert tool.env_value("TEST_INT") == 5
         assert tool.env_value("NO_TEST_FIELD") is None
 
+        os.environ["TEST_INT"] = "1"
+
+        assert isinstance(tool.env_value("TEST_INT"), int)
+        assert tool.env_value("TEST_INT") == 1
+
     def test_action_name(self, tool):
         assert tool.action_name(tool.test) == "test"
 

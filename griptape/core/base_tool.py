@@ -5,6 +5,7 @@ from abc import ABC
 from typing import Optional
 import yaml
 from attr import define, fields, Attribute, field, Factory
+from decouple import config
 from jinja2 import Template
 
 
@@ -26,7 +27,9 @@ class BaseTool(ABC):
 
     @property
     def env(self) -> dict[str, str]:
-        return {f.metadata["env"]: str(getattr(self, f.name)) for f in self.env_fields}
+        return {
+            f.metadata["env"]: str(getattr(self, f.name)) for f in self.env_fields if getattr(self, f.name)
+        }
 
     @property
     def manifest_path(self) -> str:
@@ -75,15 +78,28 @@ class BaseTool(ABC):
         return methods
 
     def env_value(self, name: str) -> Optional[any]:
-        env_var_value = os.environ.get(name, None)
+        # First, check if there is a matching field with an environment variable in the metadata
+        env_field = next(
+            (f for f in self.env_fields if f.metadata.get("env") == name),
+            None
+        )
+
+        if env_field:
+            # Try casting the environment variable value to a matching field type
+            type_hint = env_field.type.__args__[0] if hasattr(env_field.type, "__args__") else env_field.type
+            env_var_value = config(name, default=None, cast=type_hint) if config(name, default=None) else None
+        else:
+            env_var_value = config(name, default=None)
 
         if env_var_value:
+            # Return a non-None environment variable value
             return env_var_value
+        elif env_field:
+            # Read field value directly
+            return getattr(self, env_field.name)
         else:
-            return next(
-                (getattr(self, f.name) for f in self.env_fields if f.metadata.get("env") == name),
-                None
-            )
+            # If all fails, return None
+            return None
 
     def action_name(self, action: callable) -> str:
         if action is None or not getattr(action, "is_action", False):
