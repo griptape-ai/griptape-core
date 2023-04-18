@@ -30,12 +30,12 @@ Next, initialize an executor and some tools:
 from griptape.core.adapters import LangchainToolAdapter, ChatgptPluginAdapter
 from griptape.core.executors import LocalExecutor
 from griptape.tools import (
-    Calculator, GoogleSearch
+    Calculator, WebSearch
 )
 
 tool_executor = LocalExecutor()
 
-google_search = GoogleSearch(
+google_search = WebSearch(
     api_search_key="<search key>",
     api_search_id="<search ID>"
 )
