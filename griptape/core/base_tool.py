@@ -5,6 +5,7 @@ from abc import ABC
 from typing import Optional
 import yaml
 from attr import define, fields, Attribute, field, Factory
+import attrs
 from decouple import config
 from jinja2 import Template
 
@@ -20,6 +21,9 @@ class BaseTool(ABC):
 
     # Disable logging, unless it's an error, so that executors don't capture it as subprocess output.
     logging.basicConfig(level=logging.ERROR)
+
+    def __attrs_post_init__(self):
+        attrs.resolve_types(self.__class__, globals(), locals())
 
     @property
     def env_fields(self) -> list[Attribute]:
