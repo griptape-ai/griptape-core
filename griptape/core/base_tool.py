@@ -16,7 +16,7 @@ class BaseTool(ABC):
     DOCKERFILE_FILE = "Dockerfile"
     REQUIREMENTS_FILE = "requirements.txt"
 
-    name: str = field(default=Factory(lambda self: self.__class__.__name__, takes_self=True), kw_only=True)
+    name: str = field(default=Factory(lambda self: self.class_name, takes_self=True), kw_only=True)
     metadata: Optional[str] = field(default=None, kw_only=True)
 
     # Disable logging, unless it's an error, so that executors don't capture it as subprocess output.
@@ -24,6 +24,10 @@ class BaseTool(ABC):
 
     def __attrs_post_init__(self):
         attrs.resolve_types(self.__class__, globals(), locals())
+
+    @property
+    def class_name(self):
+        return self.__class__.__name__
 
     @property
     def env_fields(self) -> list[Attribute]:

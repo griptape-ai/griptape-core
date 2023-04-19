@@ -63,6 +63,10 @@ class TestBaseTool:
         assert MockTool().name == "MockTool"
         assert MockTool(name="FooBar").name == "FooBar"
 
+    def test_class_name(self):
+        assert MockTool().class_name == "MockTool"
+        assert MockTool(name="FooBar").class_name == "MockTool"
+
     def test_action_description(self, tool):
         description = tool.action_description(tool.test)
 

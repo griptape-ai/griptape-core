@@ -39,7 +39,7 @@ class DockerExecutor(BaseExecutor):
     def run_container(self, tool_action: callable, value: bytes) -> str:
         tool = tool_action.__self__
         workdir = "/tool"
-        tool_name = tool.name
+        tool_name = tool.class_name
         command = [
             "python",
             "-c",

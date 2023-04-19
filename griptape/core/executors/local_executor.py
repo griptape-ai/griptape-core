@@ -48,7 +48,7 @@ class LocalExecutor(BaseExecutor):
 
     def run_subprocess(self, env: dict[str, str], tool_action: callable, value: bytes) -> subprocess.CompletedProcess:
         tool = tool_action.__self__
-        tool_name = tool.name
+        tool_name = tool.class_name
         command = [
             "python",
             "-c",
