@@ -2,7 +2,7 @@
 
 [![Tests](https://github.com/griptape-ai/griptape-core/actions/workflows/tests.yml/badge.svg)](https://github.com/griptape-ai/griptape-core/actions/workflows/tests.yml)
 [![PyPI Version](https://img.shields.io/pypi/v/griptape-core.svg)](https://pypi.python.org/pypi/griptape-core)
-[![Docs](https://readthedocs.org/projects/griptape/badge/)](https://griptape.readthedocs.io/en/latest/griptape-core/)
+[![Docs](https://readthedocs.org/projects/griptape/badge/)](https://griptape.readthedocs.io/en/latest/griptape_core/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/gitbucket/gitbucket/blob/master/LICENSE)
 
 **griptape-core** is a Python framework that enables developers to write tools for generative AI middleware once and use it anywhere.
