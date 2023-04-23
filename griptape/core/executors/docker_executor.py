@@ -28,7 +28,7 @@ class DockerExecutor(BaseExecutor):
 
             return None
 
-    def execute(self, tool_action: callable, value: bytes) -> bytes:
+    def try_execute(self, tool_action: callable, value: bytes) -> bytes:
         tool = tool_action.__self__
 
         self.build_image(tool)

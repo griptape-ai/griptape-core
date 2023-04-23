@@ -9,7 +9,7 @@ from griptape.core import BaseExecutor, BaseTool
 class LocalExecutor(BaseExecutor):
     verbose: int = field(default=False, kw_only=True)
 
-    def execute(self, tool_action: callable, value: bytes) -> bytes:
+    def try_execute(self, tool_action: callable, value: bytes) -> bytes:
         tool = tool_action.__self__
 
         logging.warning(f"You are executing the {tool.name} tool in the local environment. Make sure to "

@@ -1,4 +1,5 @@
 import os
+from .base_middleware import BaseMiddleware
 from .base_tool import BaseTool
 from .base_executor import BaseExecutor
 from .base_adapter import BaseAdapter
@@ -17,5 +18,6 @@ __all__ = [
     "BaseTool",
     "BaseExecutor",
     "BaseAdapter",
+    "BaseMiddleware",
     "action"
 ]
